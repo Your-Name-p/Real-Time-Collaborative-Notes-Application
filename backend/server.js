@@ -17,7 +17,7 @@ const io = socketio(server, {
 });
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: ["http://localhost:5173", "https://your-frontend-url.vercel.app"],
   credentials: true
 }));
 app.use(express.json());
