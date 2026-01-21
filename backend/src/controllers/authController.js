@@ -6,6 +6,8 @@ exports.register = async (req, res) => {
   try {
     const { name, email, password, role = 'editor' } = req.body;
 
+    console.log('Registration attempt:', { name, email, role });
+
     if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields required" });
     }
@@ -23,9 +25,11 @@ exports.register = async (req, res) => {
 
     const token = jwt.sign(
       { id: result.insertId, role },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || 'fallback-secret',
       { expiresIn: "7d" }
     );
+
+    console.log('User registered successfully:', result.insertId);
 
     res.status(201).json({
       message: "User registered",
